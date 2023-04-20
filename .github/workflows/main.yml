@@ -1,4 +1,4 @@
-on:
+on: 
   push:
     branches:
       - master
@@ -10,16 +10,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-
-
     steps:
-      - name: 'testing github action'
-        run: pwd 
+      - uses: actions/checkout@v3
 
+      - name: "login to docker hub "
+        run: docker login --username ${{secrets.USERNAMEE}} --password ${{ secrets.TOKENN }}
 
-    steps:
-      - name: 'testing printing '
-        run: echo nobil 
+      - name: "bulding docker image" 
+        run: docker build -t ${{secrets.USERNAMEE}}/myimage .
 
-
-
+      - name: "pushing to docker hub"
+        run: docker push ${{secrets.USERNAMEE}}/myimage
